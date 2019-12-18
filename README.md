@@ -31,14 +31,13 @@ Let's look at how we might validate some things.
        and it also disallows empty strings (for string properties).
 
       **EXAMPLE :**
-      To set an empty-value validator in our Country model, you might write
+      To set an empty-value validator in our Dcotors model, you might write
 
       ```ruby
-      class Country < ActiveRecord::Base
-        has_many :citizenships
-        has_many :people, through: :citizenships
-
-        validates :name, presence: true
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true
       end
       ```
 
@@ -51,89 +50,81 @@ Let's look at how we might validate some things.
       To set some uniqueness validators in my Person model, you might write
 
       ```ruby
-      class Person < ActiveRecord::Base
-        has_many :citizenships
-        has_many :countries, through: :citizenships
-
-        validates :phone_number, uniqueness: true
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true, uniqueness: true
       end
       ```
 
--   **References**
+<br>
+<hr>
+`ActiveRecord::Base` comes with a slew of other validators we can use, as well as the mechanisms to create our own custom validators.
+<hr>
+<br>
 
-      For referential integrity checks,
-       we'll use `validates <model>, presence: true`,
-       where `<model>` is the symbol we passed to `belongs_to`.
-
-      **EXAMPLE :**
-      You want to test that a Citizenship instance refers to
-       an instance of Country and an instance of Person;
-       in that case, you might write the following:
+**Only Alphabets**
 
       ```ruby
-      class Citizenship < ActiveRecord::Base
-        belongs_to :country
-        belongs_to :person
-
-        validates :country, presence: true
-        validates :person, presence: true
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z]+\z/,
+     message: "only allows letters" }
       end
       ```
 
-`ActiveRecord::Base` comes with a slew of other validators we can use, as well as the mechanisms to create our own custom validators.
+<br>
+<hr>
+
+**Only Numbers**
+
+      ```ruby
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true, uniqueness: true, numericality: true
+      end
+
+      ```
+
+<br>
+<hr>
+
+**Minimum Length**
+
+      ```ruby
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z]+\z/,
+     message: "only allows letters" }, length: { minimum: 5, too_short: "must have at least %{count} words" }
+      end
+
+      ```
+
+<br>
+<hr>
+
+**Maximum Length**
+
+      ```ruby
+      class Doctor < ApplicationRecord
+    has_many :appointments
+    has_many :patients, through: :appointments
+    validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z]+\z/,
+     message: "only allows letters" }, length: { minimum: 5, maximum: 10, too_short: "must have at least %{count} words" }
+      end
+
+      ```
+
+<br>
+<hr>
 
 
-A quick example to illustrate:
-
-```ruby
-class Person < ActiveRecord::Base
-  validates :first_name, presence: true
-end
-
-person = Person.new(last_name: "Khan")
-person.valid?  # => checks validations and returns a boolean
-person.save    # => rollback db
-person.save!   # => specifies failure
-
-person.first_name = "Ali"
-person.valid?
-person.save
-```
 
 You can learn more about validations in the [Active Record Validations
 guide](http://guides.rubyonrails.org/active_record_validations.html).
-
-#### Validate Person Model
-
-We set our [validations](http://guides.rubyonrails.org/active_record_validations.html) in our app/models/person.rb model.
-
-Let's make sure each person definitely has a first name and a last name before they're saved.
-
-```ruby
-class Person < ActiveRecord::Base
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-end
-```
-
-* Type `reload!` into the console to update your model validations.
-* Try saving a person with no first or last name and see what error is thrown.
-* Try calling `valid?` on a new person.
-* Walk through the Rails Docs and show that you can add error messages to your validations (e.g.- `too_short: "must have at least %{count} words"`).
-
-**WE DO:**
-
-Add the following validation to `person.rb`:
-
-```ruby
-validates :hometown, :first_name, :last_name, length: { minimum: 3, too_short: "must have at least %{count} words" }
-```
-
-or add `numericality` to the age field:
-
-```ruby
-validates :age, numericality: true
-```
 
 
 <br>
