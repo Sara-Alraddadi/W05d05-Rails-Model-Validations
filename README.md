@@ -135,18 +135,9 @@ or add `numericality` to the age field:
 validates :age, numericality: true
 ```
 
-**YOU DO:**
-
-- Create a new `Person` table column named `age` and add a validation. 
-- Attempt to create a new `Person` and make it fail. 
-- Make the new `Person` pass.
-
 
 <br>
 
-## Migrations/Validations Exercise
-
-[Can be found here](rails_active_record_migrations-and-validations_exercise.md)
 
 ## Further Reading
 
