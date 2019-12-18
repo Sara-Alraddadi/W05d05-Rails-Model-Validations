@@ -63,7 +63,7 @@ Let's look at how we might validate some things.
 <hr>
 <br>
 
-**Only Alphabets**
+-  **Only Alphabets**
 
       ```ruby
       class Doctor < ApplicationRecord
@@ -77,7 +77,7 @@ Let's look at how we might validate some things.
 <br>
 <hr>
 
-**Only Numbers**
+-  **Only Numbers**
 
       ```ruby
       class Doctor < ApplicationRecord
@@ -91,7 +91,7 @@ Let's look at how we might validate some things.
 <br>
 <hr>
 
-**Minimum Length**
+-  **Minimum Length**
 
       ```ruby
       class Doctor < ApplicationRecord
@@ -106,7 +106,7 @@ Let's look at how we might validate some things.
 <br>
 <hr>
 
-**Maximum Length**
+-  **Maximum Length**
 
       ```ruby
       class Doctor < ApplicationRecord
